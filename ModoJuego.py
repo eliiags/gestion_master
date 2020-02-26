@@ -43,10 +43,10 @@ class ModoJuego():
         self._intentos = 0
         
         # Si el nivel es FACIL
-        if (self._nivel == 1):
+        if (nivel == 1):
             self._nivelJuego = NivelJuego.Facil(MAXIMO, MINIMO, INT_FACIL)
         # Si el nivel es MEDIO
-        elif (self._nivel == 2):
+        elif (nivel == 2):
             self._nivelJuego = NivelJuego.Medio(MAXIMO, MINIMO, INT_MEDIO)
         # Si el nivel es DIFICIL
         else:
@@ -84,7 +84,7 @@ class Solitario(ModoJuego):
 
     # Método sobreescrito 
     def jugar(self):
-        print("He pensado en un número que esta entre " + str(self._nivelJuego.getMIN()) + 
+        print("He pensado en un número que está entre " + str(self._nivelJuego.getMIN()) + 
               " y " + str(self._nivelJuego.getMAX()) + ". ¿Podrías adivinarlo en " 
               + str(self._nivelJuego.getIntentos()) + " intentos? \n")
         
@@ -162,7 +162,7 @@ class MultiJugador(ModoJuego):
         print("JUGADOR Nº1: ")
         # El primer jugador escribe el numero
         aux = getpass.getpass("Introduce un número entre " + str(self._nivelJuego.getMIN()) + 
-              " y " + str(self._nivelJuego.getMAX()) + ".\n Nota: El número que vas a introducir no " +
+              " y " + str(self._nivelJuego.getMAX()) + ".\nNota: El número que vas a introducir no " +
               "se mostrará por pantalla, así tu contrincante no podrá verlo :) ")
         # Se comprueba que el numero introducido es correcto. Es decir, si el valor 
         # introducido es un numero y si, ademas, esta en el intervalo correcto.
@@ -179,7 +179,7 @@ class MultiJugador(ModoJuego):
 
         print("JUGADOR Nº2:")
         print("El JUGADOR Nº1 ha pensado en un número entre " + str(self._nivelJuego.getMIN()) + 
-              " y " + str(self._nivelJuego.getMAX()) +  "¿Podrías adivinarlo en " 
+              " y " + str(self._nivelJuego.getMAX()) +  " ¿Podrías adivinarlo en " 
               + str(self._nivelJuego.getIntentos()) + " intentos?")
 
         # Bucle que se repite tantas veces como intentos tenga el jugador
