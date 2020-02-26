@@ -13,7 +13,8 @@ import os
 from openpyxl import Workbook
 import openpyxl
 # Graficos
-#matplotlib inline
+#from IPython import get_ipython
+#get_ipython().run_line_magic('matplotlib', 'inline')
 import matplotlib.pyplot as grafico
 # Para el abecedario 
 from string import ascii_uppercase
@@ -38,13 +39,14 @@ class Menu():
         self._opcionNivel = 0
         # Si el jugador ya existe en la BBDD
         self._existe = False
+        self._pos    = 0
         # Se guardarán los datos del jugador para actualizarlos
-        self._listaPuntos = []
+        self._listaPuntos = ""
 
 
     # Mostramos el menu del modo del juego
     def muestraMenuModoJuego(self):
-        print("¿Cómo quieres jugar?")
+        print("\n¿Cómo quieres jugar?")
         print("1. Partida modo solitario")
         print("2. Partida 2 Jugadores")
         print("3. Estadística")
@@ -87,12 +89,11 @@ class Menu():
             # Abrimos el fichero para comprobar si el jugador ya existe
             fichero = openpyxl.load_workbook(FICHERO_PARTIDAS)
             hoja    = fichero.active
-            i=0
             # Recorremos toda las filas comprobando si el usuario esta en la BBDD
-            while (i < hoja.max_row):
-                i+=1 # Incrementamos el contador
+            while (self._pos < hoja.max_row):
+                self._pos+=1 # Incrementamos el contador
                 # Si el jugador existe
-                if (hoja.cell(row = i, column = 1).value == nombre.upper()):
+                if (hoja['A%d' %(self._pos)].value == nombre.upper()):
                     # Se actualiza la variable
                     self._existe = True
                     # Salimos del bucle
@@ -109,25 +110,20 @@ class Menu():
         # Recogemos la informacion
         # Si el jugador existe
         if (self._existe):
-            j=0
-            while (j < hoja.max_column):
-                # Actualizamos la lista de info del usuario
-                j+=1
-                self._listaPuntos.append(hoja.cell(row = i, column = j).value)
+            # Ultima letra del excel
+            letra = ascii_uppercase[hoja.max_column-1]
+            # Actualizamos la lista de info del usuario que esta en la posicion pos
+            fila = hoja["A"+str(self._pos)+":"+str(letra)+str(self._pos)]
+            self._listaPuntos = []
+            for f in fila:
+                for valor in f:
+                    self._listaPuntos.append(valor.value)
         # Sino existe
         else:
             # Creamos las lista con valores iniciales
-            self._listaPuntos.append(nombre.upper())
-            self._listaPuntos.append(0) #GANADAS
-            self._listaPuntos.append(0) #PERDIDAS
-            self._listaPuntos.append(0) #FACIL
-            self._listaPuntos.append(0) #MEDIO
-            self._listaPuntos.append(0) #DIFICIL
-            self._listaPuntos.append("-") #MEJOR_F
-            self._listaPuntos.append("-") #MEJOR_M
-            self._listaPuntos.append("-") #MEJOR_D
-            # print("Lista: " + str(self._listaPuntos))
-
+            # NOMBRE | GANADAS | PERDIDAS | FACIL | MEDIO | DIFICIL | 
+            # MEJOR_F | MEJOR_M | MEJOR_D
+            self._listaPuntos = [nombre.upper(), 0, 0, 0, 0, 0, "-", "-", "-"]
 
 
     # Se actualiza la info de la partida        
@@ -139,15 +135,13 @@ class Menu():
       
         # SI el usuario existe
         if (self._existe):
-            i=0
-            while (i < hoja.max_row):
-                i+=1
-                if(hoja.cell(row = i, column = 1).value == self._listaPuntos[0]):
-                    j=0
-                    while (j < hoja.max_column):
-                        hoja['%di' % ascii_uppercase[j]] = self._listaPuntos[j] 
-                        j+=1
-                    break
+            # Ultima letra del excel
+            j=0
+            for valor in self._listaPuntos:
+                # Actualizamos la lista de info del usuario
+                hoja[str(ascii_uppercase[j])+str(self._pos)].value = valor
+                j+=1
+            
         # Si el usuario no existe
         else:
             # Se anade al final de la lista
@@ -194,7 +188,7 @@ class Menu():
                 self._listaPuntos[3] = aux + 1
                 # Se actualiza el mejor numero de intentos
                 if (self._listaPuntos[6] == "-" or
-                    self._listaPuntos[6] < juego.getNumeroIntentos()):
+                    self._listaPuntos[6] > juego.getNumeroIntentos()):
                     self._listaPuntos[6] = juego.getNumeroIntentos()
                 
             # Si ha sido un nivel MEDIO
@@ -203,7 +197,7 @@ class Menu():
                 self._listaPuntos[4] = aux + 1
                 # Se actualiza el mejor numero de intentos
                 if (self._listaPuntos[7] == "-" or
-                    self._listaPuntos[7] < juego.getNumeroIntentos()):
+                    self._listaPuntos[7] > juego.getNumeroIntentos()):
                     self._listaPuntos[7] = juego.getNumeroIntentos()
           
             # Si ha sido un nivel DIFICIL
@@ -212,7 +206,7 @@ class Menu():
                 self._listaPuntos[5] = aux + 1
                 # Se actualiza el mejor numero de intentos
                 if (self._listaPuntos[8] == "-" or
-                    self._listaPuntos[8] < juego.getNumeroIntentos()):
+                    self._listaPuntos[8] > juego.getNumeroIntentos()):
                     self._listaPuntos[8] = juego.getNumeroIntentos()
         
         # SI HA PERDIDO
@@ -233,20 +227,28 @@ class Menu():
         # Busca al usuario en la BBDD
         self.compruebaBBDD()
         
-        print("Estadísticas de: " + self._listaPuntos[0])
+        # Si el jugador existe
+        if (self._existe): 
         
-        x = ["Partidas ganadas","Partidas perdidas"]
-        y = [self._listaPuntos[1], self._listaPuntos[2]]
-        grafico.bar(x, y)
-        grafico.show()
-        
-        print("\n")
-        
-        x = ["Fácil","Medio", "Difícil"]
-        y = [self._listaPuntos[3], self._listaPuntos[4], self._listaPuntos[5]]
-        grafico.bar(x, y)
-        grafico.show()
-    
+            print("\nEstadísticas de: " + self._listaPuntos[0])
+            
+            x = ["Partidas ganadas","Partidas perdidas"]
+            y = [self._listaPuntos[1], self._listaPuntos[2]]
+            grafico.bar(x, y)
+            grafico.title("Informacion del juego")
+            grafico.show()
+            
+            print("\n")
+            
+            x = ["Fácil","Medio", "Difícil"]
+            y = [self._listaPuntos[3], self._listaPuntos[4], self._listaPuntos[5]]
+            grafico.bar(x, y)
+            grafico.title("Partidas ganadas por dificultad del nivel")
+            grafico.show()
+        else:
+            print("\nNunca has jugado a ADIVINA EL NUMERO, " + 
+                  "por lo que no tenemos estadísticas para mostrarte. " +
+                  "¿Te animas a jugar una partida?\n ")
     
     
     
@@ -284,16 +286,17 @@ class Menu():
                 # The game is on :)
                 self.empiezaElJuego()
             
-            # Volvemos a establecer los valores predeterminador
+            # Volvemos a establecer los valores a predeterminados
             self._existe = False
-            self._listaPuntos = []
+            self._pos    = 0
+            self._listaPuntos = ""
     
     
-       
-
-
-
-juego = Menu()
-juego.menu()
+    
+    
+    
+if __name__ == '__main__':
+    juego = Menu()
+    juego.menu()
 
 
