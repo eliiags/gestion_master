@@ -9,7 +9,7 @@ Created on Wed Feb 26 00:53:55 2020
 
 """
 Clase Nivel
- - Representa los niveles del juego
+ -  Representa los niveles del juego
 """
 class Nivel():
     def __init__(self, MAX, MIN, intentos):
