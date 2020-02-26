@@ -3,7 +3,7 @@
 """
 Created on Wed Feb 26 01:57:35 2020
 
-@author: eli
+@author: Elianni Aguero, Angelica Guerrero, Cinthya Quintana
 """
 
 # Para ocultar el numero 
