@@ -46,13 +46,13 @@ class ModoJuego():
             print(" --- Intento nº " + str(self._intentos) + " --- \n")
             
             if (intentos == 0):
-                print(Utiles.getColor('R') + "Te queda un intento. ¿Quieres que te demos una pista? ")
+                print("Te queda un intento. ¿Quieres que te demos una pista? ")
                 p = input("Escribe 'SI' si quieres la pista y 'NO' en caso contrario: ")
                 
                 if (Utiles.compruebaString(p, "SI", "NO")):
                     print(self.darPista(num))
                 
-            print(Utiles.getColor('B'))
+           
             
             aux = input("Escribe un número: ") # El usuario escribe un numero
             # Utiliza el modulo comprobaciones donde se hace una comprobacion del 
@@ -91,7 +91,7 @@ class ModoJuego():
         # Si ha ganado
         if (self._ha_ganado):
             # Se le felicita
-            print(Utiles.getColor('V') + "\nENHORABUENA! Has ganado! :D" + Utiles.getColor('B'))
+            print("\nENHORABUENA! Has ganado! :D")
         # Si no ha ganado
         else:
             # Se le muestra al jugador el numero aleatorio que tenia que adivinar
@@ -172,7 +172,7 @@ class MultiJugador(ModoJuego):
               + "un número entre " + str(self._nivelJuego.getMIN()) + " y " 
               + str(self._nivelJuego.getMAX()) + ", y el JUGADOR Nº2 tendrá que adivinarlo \n"
               + "Así que allá vamos :)\n")
-        print(Utiles.getColor('A') + "Turno para el JUGADOR Nº1: " + Utiles.getColor('B'))
+        print("Turno para el JUGADOR Nº1: ")
         # El primer jugador escribe el numero
         aux = getpass.getpass("Introduce un número entre " + str(self._nivelJuego.getMIN()) + 
               " y " + str(self._nivelJuego.getMAX()) + ".\nNota: El número que vas a introducir no " +
@@ -190,7 +190,7 @@ class MultiJugador(ModoJuego):
         
         print("---*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--- \n")
 
-        print(Utiles.getColor('A') + "Turno para el JUGADOR Nº2: " + Utiles.getColor('B'))
+        print("Turno para el JUGADOR Nº2: ")
         print("El JUGADOR Nº1 ha pensado en un número entre " + str(self._nivelJuego.getMIN()) + 
               " y " + str(self._nivelJuego.getMAX()) +  " ¿Podrías adivinarlo en " 
               + str(self._nivelJuego.getIntentos()) + " intentos?")
