@@ -71,21 +71,6 @@ def noCadenaVacia(nombre):
 def dameNumAleatorio(MIN, MAX):
     return random.randint(MIN, MAX)
 
-
-def getColor(color):
-    
-    if (color == 'R'):
-        return '\x1b[1;31m'
-    
-    if (color == 'V'):
-        return '\x1b[1;32m'
-    
-    if (color == 'A'):
-        return '\x1b[1;33m'
-    
-    if (color == 'B'):
-        return '\x1b[1;37m'
-
     
 
 """  FIN COMPROBACIONES  """
