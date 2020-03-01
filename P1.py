@@ -87,7 +87,7 @@ class Menu():
 
     def menu(self):
         # Saludo de bienvenida
-        print(Utiles.getColor('V') + "Bienvenido a 'ADIVINA EL NÚMERO'" + Utiles.getColor('B'))
+        print("Bienvenido a 'ADIVINA EL NÚMERO'")
         
         self._datosJugadores = self.extraerBBDD()
         
@@ -249,7 +249,7 @@ class Menu():
               "¿Te animas a jugar una partida?\n ")
             return ""
         
-        print(Utiles.getColor('A') + "\nEstadísticas de: " + nombre + Utiles.getColor('B'))
+        print("\nEstadísticas de: " + nombre)
 
         while(True):
             self.muestraMenuEstadisticas()
