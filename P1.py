@@ -126,10 +126,7 @@ class Menu():
                 self.empiezaElJuego(opcionModo, opcionNivel, opcionIntervalo)
             
             
-            # Volvemos a establecer los valores a predeterminados
-            self._existe = False
-            self._pos    = 0
-            self._listaPuntos = ""
+     
 
 
 
