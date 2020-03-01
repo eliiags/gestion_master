@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@author: Elianni Aguero, Angelica Guerrero, Cinthya Quintana
+@author: Elianni Aguero, Angelica Guerrero, Cynthia Quintana
 """
 
 
@@ -11,7 +11,7 @@ import getpass
 
 # Modulo creado para hacer comprobaciones del usuario
 import Utiles
-import NivelJuego
+import Nivel
 
 
 
@@ -52,8 +52,9 @@ class ModoJuego():
                 if (Utiles.compruebaString(p, "SI", "NO")):
                     print(self.darPista(num))
                 
+            print(Utiles.getColor('B'))
             
-            aux = input(Utiles.getColor('B') + "Escribe un número: ") # El usuario escribe un numero
+            aux = input("Escribe un número: ") # El usuario escribe un numero
             # Utiliza el modulo comprobaciones donde se hace una comprobacion del 
             # valor introducido por el usuario. Es decir, si el valor introducido
             # es un numero y si, ademas, esta en el intervalo correcto.
@@ -90,11 +91,11 @@ class ModoJuego():
         # Si ha ganado
         if (self._ha_ganado):
             # Se le felicita
-            print("\nENHORABUENA! Has ganado! :D")
+            print(Utiles.getColor('V') + "\nENHORABUENA! Has ganado! :D" + Utiles.getColor('B'))
         # Si no ha ganado
         else:
             # Se le muestra al jugador el numero aleatorio que tenia que adivinar
-            print("\nLo siento. Has agotado todos los intentos :(")
+            print("\n\nLo siento. Has agotado todos los intentos :(")
             print("El número que tenías que adivinar era: " + str(num))
             print("Más suerte en la próxima vez")        
         
@@ -155,7 +156,7 @@ class Solitario(ModoJuego):
 
     def getInfoJugadores(self):
         lista = []
-        lista.append(input("\nEscribe tu nombre: ").upper())
+        lista.append(Utiles.noCadenaVacia(input("\nEscribe tu nombre: ")).upper())
         return lista
 
 """
@@ -171,7 +172,7 @@ class MultiJugador(ModoJuego):
               + "un número entre " + str(self._nivelJuego.getMIN()) + " y " 
               + str(self._nivelJuego.getMAX()) + ", y el JUGADOR Nº2 tendrá que adivinarlo \n"
               + "Así que allá vamos :)\n")
-        print("Turno para el JUGADOR Nº1: ")
+        print(Utiles.getColor('A') + "Turno para el JUGADOR Nº1: " + Utiles.getColor('B'))
         # El primer jugador escribe el numero
         aux = getpass.getpass("Introduce un número entre " + str(self._nivelJuego.getMIN()) + 
               " y " + str(self._nivelJuego.getMAX()) + ".\nNota: El número que vas a introducir no " +
@@ -189,7 +190,7 @@ class MultiJugador(ModoJuego):
         
         print("---*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--- \n")
 
-        print("Turno para el JUGADOR Nº2:")
+        print(Utiles.getColor('A') + "Turno para el JUGADOR Nº2: " + Utiles.getColor('B'))
         print("El JUGADOR Nº1 ha pensado en un número entre " + str(self._nivelJuego.getMIN()) + 
               " y " + str(self._nivelJuego.getMAX()) +  " ¿Podrías adivinarlo en " 
               + str(self._nivelJuego.getIntentos()) + " intentos?")
@@ -201,9 +202,11 @@ class MultiJugador(ModoJuego):
     def getInfoJugadores(self):
         lista = []
         # Preguntamos el nombre del jugador 1
-        j1 = input("\nJUGADOR Nº1, escribe tu nombre: ").upper()
-        # Preguntamos el nombre del jugador 2 y lo guardamos
-        lista.append(input("\nJUGADOR Nº2, escribe tu nombre: ").upper())
+        # j1 = input("\nJUGADOR Nº1, escribe tu nombre: ").upper()
+        j1 = Utiles.noCadenaVacia(input("\nJUGADOR Nº1, escribe tu nombre: ")).upper()
+        j2 = Utiles.noCadenaVacia(input("\nJUGADOR Nº2, escribe tu nombre: ")).upper()
+        # Guardamos el nombre del jugador 2
+        lista.append(j2)
         # Guardamos el nombre del jugador 1
         lista.append(j1)
         return lista
