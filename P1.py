@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb 26 00:53:55 2020
-
-@author: Elianni Aguero, Angelica Guerrero, Cinthya Quintana
+@author: Elianni Aguero, Angelica Guerrero, Cynthia Quintana
 """
 
 
@@ -37,12 +35,8 @@ DatosJuego = {'N1':20,
 
 class Menu():
     def __init__(self):
-        # Si el jugador ya existe en la BBDD
-        self._existe = False
-        self._pos    = 0
         # Se guardarán los datos del jugador para actualizarlos
         self._datosJugadores = ""
-
 
     # Mostramos el menu del modo del juego
     def muestraMenuModoJuego(self):
@@ -204,7 +198,8 @@ class Menu():
             # Abrimos el fichero para comprobar si el jugador ya existe
             fichero = openpyxl.load_workbook(FICHERO_PARTIDAS)
             hoja    = fichero.active
-            
+            if (hoja.cell(1, 1).value is None):
+                return datosJugadores
             # Guardamos toda la info del excel en el atributo datosJugadores
             # Se guardarán en un diccionario cuya clave sera el nombre del jugador
             for i in range(1, hoja.max_row+1):
@@ -233,18 +228,14 @@ class Menu():
         
         nombres = list(self._datosJugadores.keys())
         
-        print(nombres)
-        
         # Guardamos toda la info del excel en el atributo datosJugadores
         for i in range(1, len(self._datosJugadores)+1):
             #print("Ite i: " + str(i))
             for j in range(1, len(self._datosJugadores[nombres[i-1]])+2):
                 #print("Ite j: " + str(j))
                 if (j == 1):
-                    print(nombres[i-1])
                     hoja.cell(i, j).value = nombres[i-1]
                 else: 
-                    print("Valor " + str(self._datosJugadores[nombres[i-1]][j-2]))
                     hoja.cell(i, j).value = self._datosJugadores[nombres[i-1]][j-2]
         
         fichero.save(FICHERO_PARTIDAS)
@@ -261,6 +252,8 @@ class Menu():
               "¿Te animas a jugar una partida?\n ")
             return ""
         
+        print(Utiles.getColor('A') + "\nEstadísticas de: " + nombre + Utiles.getColor('B'))
+
         while(True):
             self.muestraMenuEstadisticas()
             opcionEstadistica = self.opcionSeleccionada(1, 4)
@@ -268,7 +261,6 @@ class Menu():
             if (opcionEstadistica == 4):
                 break
             
-            print(Utiles.getColor('A') + "\nEstadísticas de: " + nombre + Utiles.getColor('B'))
             
             if (opcionEstadistica == 1):
                 x = ["Partidas ganadas","Partidas perdidas"]
@@ -284,7 +276,7 @@ class Menu():
                 grafico.bar(x, y)
                 grafico.title("Partidas ganadas por dificultad del nivel")
                 grafico.show()
-            elif (opcionEstadistica == 3):
+            else :
                 print("\nRanking de Jugadores con el número de partidas ganadas")
                 aux = dict(sorted(self._datosJugadores.items(), key=operator.itemgetter(1), reverse=True))
                 i=1
