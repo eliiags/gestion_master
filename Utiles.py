@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb 26 01:57:35 2020
-
-@author: Elianni Aguero, Angelica Guerrero, Cinthya Quintana
+@author: Elianni Aguero, Angelica Guerrero, Cynthia Quintana
 """
 
 # Para ocultar el numero 
@@ -65,21 +63,28 @@ def compruebaString(cadena, s1, s2):
         cadena = input("¿Quieres una pista? ")
 
 
+def noCadenaVacia(nombre):
+    while(nombre == ""):
+        nombre = input("\nPor favor, escribe tu nombre: ")
+    return nombre
+
 def dameNumAleatorio(MIN, MAX):
     return random.randint(MIN, MAX)
 
 
 def getColor(color):
     
-    if(color == 'R'):
+    if (color == 'R'):
         return '\x1b[1;31m'
-    elif(color == 'V'):
+    
+    if (color == 'V'):
         return '\x1b[1;32m'
-    elif(color == 'A'):
+    
+    if (color == 'A'):
         return '\x1b[1;33m'
     
-    # (color == 'B'):
-    return '\x1b[1;37m'
+    if (color == 'B'):
+        return '\x1b[1;37m'
 
     
 
