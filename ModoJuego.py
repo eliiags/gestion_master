@@ -27,7 +27,7 @@ class ModoJuego():
         self._intentos = 0
         
         # Creamos el nivel del juego
-        self._nivelJuego = NivelJuego.Nivel(MINIMO, MAXIMO, intentos)
+        self._nivelJuego = Nivel.Nivel(MINIMO, MAXIMO, intentos)
     
     
     # Método jugar(). Este método será sobreescrito
