@@ -178,7 +178,7 @@ class Menu():
             self._datosJugadores[nombres[0]][1] += 1
             if (opcionModo == 2):
                 # Se actualiza al JUGADOR Nº1 como partida ganada
-                self._datosJugadores[nombres[1]][1] += 1
+                self._datosJugadores[nombres[1]][0] += 1
                 self._datosJugadores[nombres[1]][opcionNivel+1] +=1
             
 
